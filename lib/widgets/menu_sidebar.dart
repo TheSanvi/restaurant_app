@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
 
 class MenuSidebar extends StatefulWidget {
-  final String selectedCategory;
-  final Function(String) onCategorySelected;
-
-  const MenuSidebar({
-    Key? key,
-    required this.selectedCategory,
-    required this.onCategorySelected,
-  }) : super(key: key);
+  const MenuSidebar({Key? key}) : super(key: key);
 
   @override
-  _MenuSidebarState createState() => _MenuSidebarState();
+  State<MenuSidebar> createState() => _MenuSidebarState();
 }
 
 class _MenuSidebarState extends State<MenuSidebar> {
+  String selectedCategory = 'All Menu';
+
   final List<Map<String, dynamic>> categories = [
     {'name': 'All Menu', 'count': 132},
     {'name': 'Chapathi', 'count': 25},
@@ -28,58 +23,57 @@ class _MenuSidebarState extends State<MenuSidebar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 220, // Sidebar width
-      color: Colors.white,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 15), // Extra space at the top
-            ...categories.map((category) {
-              bool isSelected = widget.selectedCategory == category['name'];
+      width: 240,
+      color: Colors.grey[100],
+      child: ListView.builder(
+        padding: const EdgeInsets.all(8),
+        itemCount: categories.length,
+        itemBuilder: (context, index) {
+          final category = categories[index];
+          final isSelected = category['name'] == selectedCategory;
 
-              return GestureDetector(
-                onTap: () => widget.onCategorySelected(category['name'] as String),
-                child: Container(
-                  margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 15), // **More spacing**
-                  padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
-                  decoration: BoxDecoration(
-                    color: isSelected ? Colors.yellow : Colors.grey[400], // Gray default, yellow on tap
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: isSelected ? 6 : 3, // Light shadow for all, stronger for selected
-                        offset: Offset(0, isSelected ? 4 : 2),
-                      )
-                    ],
-                  ),
+          return Container(
+            margin: const EdgeInsets.only(bottom: 8),
+            decoration: BoxDecoration(
+              color: isSelected ? const Color(0xFFFFE135) : Colors.grey[200],
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(8),
+                onTap: () {
+                  setState(() {
+                    selectedCategory = category['name'];
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        category['name'] as String,
+                        category['name'],
                         style: TextStyle(
                           fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                         ),
                       ),
-                      const SizedBox(height: 6), // Space between text elements
+                      const SizedBox(height: 4),
                       Text(
                         '${category['count']} items',
                         style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.black87,
+                          fontSize: 14,
+                          color: Colors.grey[700],
                         ),
                       ),
                     ],
                   ),
                 ),
-              );
-            }).toList(),
-            const SizedBox(height: 20), // Extra space at the bottom
-          ],
-        ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

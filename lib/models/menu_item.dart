@@ -5,7 +5,7 @@ class MenuItem {
   final double price;
   final String image;
   final String category;
-  final Map<String, bool>? customizationOptions;
+  final Map<String, dynamic> customizationOptions;
 
   MenuItem({
     required this.id,
@@ -14,7 +14,6 @@ class MenuItem {
     required this.price,
     required this.image,
     required this.category,
-    this.customizationOptions,
+    this.customizationOptions = const {},
   });
 }
-

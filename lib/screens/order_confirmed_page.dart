@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'order_processing_page.dart';
 
 class OrderConfirmedPage extends StatefulWidget {
   const OrderConfirmedPage({Key? key}) : super(key: key);
 
   @override
-  State<OrderConfirmedPage> createState() => _OrderConfirmedPageState();
+  _OrderConfirmedPageState createState() => _OrderConfirmedPageState();
 }
 
 class _OrderConfirmedPageState extends State<OrderConfirmedPage> {
@@ -12,44 +13,36 @@ class _OrderConfirmedPageState extends State<OrderConfirmedPage> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, '/order-processing');
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const OrderProcessingPage(),
+        ),
+      );
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: Colors.amber[50],
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(
-                  3,
-                      (index) => Container(
-                    margin: const EdgeInsets.all(8),
-                    width: 60,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      color: Colors.amber[100],
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
+    return Dialog(
+      child: Container(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(
+              'assets/order_confirmed.png',
+              height: 120,
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              'Your Order is Confirmed!',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
-              const SizedBox(height: 24),
-              const Text(
-                'Your Order is Confirmed!',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
