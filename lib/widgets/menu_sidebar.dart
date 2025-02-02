@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 
 class MenuSidebar extends StatefulWidget {
@@ -8,7 +10,7 @@ class MenuSidebar extends StatefulWidget {
 }
 
 class _MenuSidebarState extends State<MenuSidebar> {
-  String selectedCategory = 'All Menu';
+  String selectedCategory = 'Curry';
 
   final List<Map<String, dynamic>> categories = [
     {'name': 'All Menu', 'count': 132},
@@ -16,17 +18,15 @@ class _MenuSidebarState extends State<MenuSidebar> {
     {'name': 'Curry', 'count': 30},
     {'name': 'Starters', 'count': 59},
     {'name': 'Dessert', 'count': 15},
-    {'name': 'Beverages', 'count': 12},
-    {'name': 'Soups', 'count': 8},
   ];
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 240,
-      color: Colors.grey[100],
+      width: 220,
+      color: Colors.white,
+      padding: const EdgeInsets.all(12),
       child: ListView.builder(
-        padding: const EdgeInsets.all(8),
         itemCount: categories.length,
         itemBuilder: (context, index) {
           final category = categories[index];
@@ -41,12 +41,12 @@ class _MenuSidebarState extends State<MenuSidebar> {
             child: Material(
               color: Colors.transparent,
               child: InkWell(
-                borderRadius: BorderRadius.circular(8),
                 onTap: () {
                   setState(() {
                     selectedCategory = category['name'];
                   });
                 },
+                borderRadius: BorderRadius.circular(8),
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Column(
@@ -57,6 +57,7 @@ class _MenuSidebarState extends State<MenuSidebar> {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                          color: Colors.black,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -64,7 +65,7 @@ class _MenuSidebarState extends State<MenuSidebar> {
                         '${category['count']} items',
                         style: TextStyle(
                           fontSize: 14,
-                          color: Colors.grey[700],
+                          color: Colors.grey[600],
                         ),
                       ),
                     ],

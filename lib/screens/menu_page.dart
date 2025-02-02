@@ -11,63 +11,117 @@ class MenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Menu'),
-        actions: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            margin: const EdgeInsets.only(right: 8),
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              borderRadius: BorderRadius.circular(4),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: Row(
+          children: [
+            const Text(
+              'Menu',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 32,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-            child: const Text('#219', style: TextStyle(color: Colors.black)),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-            margin: const EdgeInsets.only(right: 16),
-            decoration: BoxDecoration(
-              color: const Color(0xFFFFE135),
-              borderRadius: BorderRadius.circular(4),
+            const Spacer(),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: const Text(
+                '#219',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                ),
+              ),
             ),
-            child: const Text('T2', style: TextStyle(color: Colors.black)),
-          ),
-        ],
+            const SizedBox(width: 8),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFE135),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: const Text(
+                'T2',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
       body: Row(
         children: [
           const MenuSidebar(),
-          const Expanded(child: MenuGrid()),
-        ],
-      ),
-      bottomNavigationBar: Consumer<CartModel>(
-        builder: (context, cart, child) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              onPressed: cart.itemCount > 0
-                  ? () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const OrderDetailsPage(),
-                  ),
-                );
-              }
-                  : null,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.shopping_cart),
-                  const SizedBox(width: 8),
-                  Text('Continue (${cart.itemCount})'),
-                ],
-              ),
+          Expanded(
+            child: Column(
+              children: [
+                const Expanded(child: MenuGrid()),
+                Consumer<CartModel>(
+                  builder: (context, cart, child) {
+                    return Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(16),
+                      child: ElevatedButton(
+                        onPressed: cart.itemCount > 0
+                            ? () {
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              pageBuilder: (context, animation, secondaryAnimation) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: const OrderDetailsPage(),
+                                );
+                              },
+                              opaque: false,
+                              barrierDismissible: true,
+                              barrierColor: Colors.black.withOpacity(0.5),
+                              transitionDuration: const Duration(milliseconds: 300),
+                            ),
+                          );
+                        }
+                            : null,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFFFE135),
+                          foregroundColor: Colors.black,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          disabledBackgroundColor: Colors.grey[300],
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.shopping_cart, size: 24),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Continue${cart.itemCount > 0 ? ' (${cart.itemCount})' : ''}',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }
 }
-

@@ -25,14 +25,30 @@ class _OrderConfirmedPageState extends State<OrderConfirmedPage> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: Container(
+        width: 400,
         padding: const EdgeInsets.all(32),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset(
-              'assets/order_confirmed.png',
-              height: 120,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                3,
+                    (index) => Container(
+                  margin: const EdgeInsets.all(8),
+                  width: 60,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFE135),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: 24),
             const Text(

@@ -8,7 +8,7 @@ class CartModel extends ChangeNotifier {
 
   int get itemCount => _items.length;
 
-  double get subtotal => _items.fold(0, (total, item) => total + (item.price * item.quantity));
+  double get subtotal => _items.fold(0, (total, item) => total + item.totalPrice);
 
   double get tax => subtotal * 0.18; // 18% GST
 
@@ -46,5 +46,15 @@ class CartItem {
     required this.quantity,
   });
 
-  double get price => item.price * quantity;
+  double get totalPrice => item.price * quantity;
+
+  String get customizationString {
+    List<String> customizationList = [];
+    customizations.forEach((key, value) {
+      if (value != null && value != false) {
+        customizationList.add('$key: $value');
+      }
+    });
+    return customizationList.join(', ');
+  }
 }
