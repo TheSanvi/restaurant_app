@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 import 'order_more_page.dart';
 
 class OrderProcessingPage extends StatefulWidget {
@@ -11,24 +10,29 @@ class OrderProcessingPage extends StatefulWidget {
 
 class _OrderProcessingPageState extends State<OrderProcessingPage>
     with TickerProviderStateMixin {
-  late AnimationController _bowlController;
-  late AnimationController _chopsticksController;
+  late AnimationController _fadeController;
+  late Animation<double> _fadeAnimation;
 
   @override
   void initState() {
     super.initState();
 
-    // Bowl rotation animation
-    _bowlController = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-    )..repeat();
-
-    // Chopsticks animation
-    _chopsticksController = AnimationController(
+    // Fade animation for text
+    _fadeController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
-    )..repeat(reverse: true);
+    );
+
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _fadeController,
+      curve: const Interval(0.3, 1.0),
+    ));
+
+    // Start animations
+    _fadeController.forward();
 
     // Navigate to OrderMorePage after 3 seconds
     Future.delayed(const Duration(seconds: 3), () {
@@ -49,8 +53,7 @@ class _OrderProcessingPageState extends State<OrderProcessingPage>
 
   @override
   void dispose() {
-    _bowlController.dispose();
-    _chopsticksController.dispose();
+    _fadeController.dispose();
     super.dispose();
   }
 
@@ -63,80 +66,43 @@ class _OrderProcessingPageState extends State<OrderProcessingPage>
         width: 400,
         height: 300,
         padding: const EdgeInsets.all(24),
-        child: Stack(
-          alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Animated Bowl
-            AnimatedBuilder(
-              animation: _bowlController,
-              builder: (context, child) {
-                return Transform.rotate(
-                  angle: _bowlController.value * 2 * math.pi,
-                  child: Container(
-                    width: 120,
-                    height: 120,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        // Bowl
-                        Container(
-                          width: 80,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: Colors.lightBlue[100],
-                            borderRadius: const BorderRadius.only(
-                              bottomLeft: Radius.circular(40),
-                              bottomRight: Radius.circular(40),
-                            ),
-                          ),
-                        ),
-                        // Chopsticks
-                        AnimatedBuilder(
-                          animation: _chopsticksController,
-                          builder: (context, child) {
-                            return Transform.translate(
-                              offset: Offset(0, _chopsticksController.value * 4),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Transform.rotate(
-                                    angle: -math.pi / 6,
-                                    child: Container(
-                                      width: 4,
-                                      height: 60,
-                                      color: Colors.grey[400],
-                                    ),
-                                  ),
-                                  const SizedBox(width: 20),
-                                  Transform.rotate(
-                                    angle: math.pi / 6,
-                                    child: Container(
-                                      width: 4,
-                                      height: 60,
-                                      color: Colors.grey[400],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      ],
+            // GIF Animation from assets
+            SizedBox(
+              width: 200,
+              height: 150,
+              child: Image.asset(
+                'assets/order_preparing.gif',
+                fit: BoxFit.contain,
+              ),
+            ),
+            const SizedBox(height: 24),
+            // Animated Text
+            FadeTransition(
+              opacity: _fadeAnimation,
+              child: const Column(
+                children: [
+                  Text(
+                    'Processing Your Order',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
                     ),
                   ),
-                );
-              },
+                  SizedBox(height: 8),
+                  Text(
+                    'Please wait while we prepare your delicious meal!',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black54,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

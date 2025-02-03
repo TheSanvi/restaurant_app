@@ -18,12 +18,15 @@ class _MenuSidebarState extends State<MenuSidebar> {
     {'name': 'Curry', 'count': 30},
     {'name': 'Starters', 'count': 59},
     {'name': 'Dessert', 'count': 15},
+    {'name': 'Beverages ', 'count': 15},
+    {'name': 'Soups', 'count': 15},
+
   ];
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 220,
+      width: 160,
       color: Colors.white,
       padding: const EdgeInsets.all(12),
       child: ListView.builder(
@@ -65,7 +68,7 @@ class _MenuSidebarState extends State<MenuSidebar> {
                         '${category['count']} items',
                         style: TextStyle(
                           fontSize: 14,
-                          color: Colors.grey[600],
+                          color: Colors.grey[900],
                         ),
                       ),
                     ],
