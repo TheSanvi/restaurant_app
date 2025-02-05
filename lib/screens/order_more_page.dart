@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../models/menu_item.dart';
+import 'package:provider/provider.dart';
+import '../models/cart_model.dart';
+import 'order_bill_page.dart';
 
 class OrderMorePage extends StatelessWidget {
   const OrderMorePage({Key? key}) : super(key: key);
@@ -7,7 +9,7 @@ class OrderMorePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: Colors.amberAccent,
+      backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
@@ -121,7 +123,7 @@ class OrderMorePage extends StatelessWidget {
                                           top: Radius.circular(8),
                                         ),
                                         child: Image.asset(
-                                          'assets/brownie.jpg', // Add this image to your assets
+                                          'assets/brownie.jpg',
                                           height: 100,
                                           width: double.infinity,
                                           fit: BoxFit.cover,
@@ -187,7 +189,7 @@ class OrderMorePage extends StatelessWidget {
               ),
             ),
 
-            // Bottom Section
+            // Bottom Section with Total and Action Buttons
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -195,33 +197,46 @@ class OrderMorePage extends StatelessWidget {
                 border: Border(
                   top: BorderSide(color: Colors.grey[200]!),
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.1),
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: const Offset(0, -3),
+                  ),
+                ],
               ),
               child: Column(
                 children: [
                   // Total Amount
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Total',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
+                  Consumer<CartModel>(
+                    builder: (context, cart, child) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'Total',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Text(
+                              '₹${cart.total.toStringAsFixed(2)}',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
-                        Text(
-                          '₹0',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
                   // Action Buttons
+                  const SizedBox(height: 16),
                   Row(
                     children: [
                       Expanded(
@@ -235,7 +250,12 @@ class OrderMorePage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
-                          child: const Text('Parcel Item'),
+                          child: const Text(
+                            'Parcel Item',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -250,13 +270,29 @@ class OrderMorePage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
-                          child: const Text('Add New Item/Repeat'),
+                          child: const Text(
+                            'Add New Item/Repeat',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: () => Navigator.of(context).popUntil((route) => route.isFirst),
+                          onPressed: () {
+                            Navigator.of(context).pushReplacement(
+                              PageRouteBuilder(
+                                pageBuilder: (context, animation, secondaryAnimation) =>
+                                    FadeTransition(
+                                      opacity: animation,
+                                      child: const OrderBillPage(),
+                                    ),
+                                transitionDuration: const Duration(milliseconds: 500),
+                              ),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFFFFE135),
                             foregroundColor: Colors.black,
@@ -265,7 +301,12 @@ class OrderMorePage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
-                          child: const Text('Proceed to Pay'),
+                          child: const Text(
+                            'Proceed to Pay',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                     ],
