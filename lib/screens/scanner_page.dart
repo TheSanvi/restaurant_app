@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_app/screens/menu_page.dart';
+ // Replace with the correct import path
 
 class ScannerPage extends StatelessWidget {
   const ScannerPage({Key? key}) : super(key: key);
@@ -16,7 +18,7 @@ class ScannerPage extends StatelessWidget {
         padding: const EdgeInsets.all(24),
         child: Column(
           children: [
-            // Header
+            // Header with back button
             Row(
               children: [
                 IconButton(
@@ -25,7 +27,7 @@ class ScannerPage extends StatelessWidget {
                 ),
                 const Expanded(
                   child: Text(
-                    'Scan QR Code',
+                    'Scan the code to pay',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -36,47 +38,80 @@ class ScannerPage extends StatelessWidget {
                 const SizedBox(width: 40), // For alignment
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 16),
 
-            // Scanner Area
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.black87,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Center(
-                  child: Container(
-                    width: 200,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: const Color(0xFFFFE135),
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.qr_code_scanner,
-                          size: 48,
-                          color: Color(0xFFFFE135),
-                        ),
-                        SizedBox(height: 16),
-                        Text(
-                          'Scanning...',
-                          style: TextStyle(
-                            color: Color(0xFFFFE135),
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+            // QR Code area
+            Container(
+              width: 200,
+              height: 200,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black, width: 2),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Center(
+                child: Icon(
+                  Icons.qr_code,
+                  size: 100,
+                  color: Colors.black,
                 ),
               ),
+            ),
+            const SizedBox(height: 16),
+
+            // Payment Instructions
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('1. Open your UPI app'),
+                  Text('2. Scan the QR code'),
+                  Text('3. Complete the payment'),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // Payment Completed Button
+            ElevatedButton(
+              onPressed: () {
+                // Navigate to the MenuPage after payment
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MenuPage()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.yellow[700],
+                foregroundColor: Colors.black,
+                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+              ),
+              child: const Text(
+                'Payment Completed',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+
+            const Spacer(),
+
+            // Expiry Timer
+            Column(
+              children: [
+                const Text(
+                  'This page will automatically expire in 10 minutes',
+                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+                const SizedBox(height: 4),
+                LinearProgressIndicator(
+                  value: 0.5, // Dummy progress, should be updated dynamically
+                  backgroundColor: Colors.grey[300],
+                  color: Colors.yellow[700],
+                ),
+              ],
             ),
           ],
         ),
