@@ -157,7 +157,7 @@ class MenuGrid extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                flex: 3,
+                flex: 2,
                 child: ClipRRect(
                   borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(12),
@@ -185,14 +185,14 @@ class MenuGrid extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Expanded(
-                        child: Text(
-                          item.description,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[800],
+                        child: SingleChildScrollView(
+                          child: Text(
+                            item.description,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey[800],
+                            ),
                           ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       Row(

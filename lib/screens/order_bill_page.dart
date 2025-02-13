@@ -34,10 +34,7 @@ class OrderBillPage extends StatelessWidget {
                     icon: const Icon(Icons.arrow_back),
                     onPressed: () => Navigator.pop(context),
                   ),
-                  const CircleAvatar(
-                    radius: 20,
-                    backgroundImage: AssetImage('assets/avatar.png'),
-                  ),
+
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(

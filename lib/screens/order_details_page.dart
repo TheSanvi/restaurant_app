@@ -33,8 +33,8 @@ class OrderDetailsPage extends StatelessWidget {
             },
             child: Center(
               child: Container(
-                width: MediaQuery.of(context).size.width * 0.8,
-                height: MediaQuery.of(context).size.height * 0.8,
+                width: MediaQuery.of(context).size.width * 0.6,
+                height: MediaQuery.of(context).size.height * 0.6,
                 margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
                 decoration: BoxDecoration(
                   color: Colors.white,

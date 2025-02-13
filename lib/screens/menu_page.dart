@@ -33,7 +33,7 @@ class MenuPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4),
               ),
               child: const Text(
-                '#219',
+                'ID-219',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 14,
@@ -71,47 +71,55 @@ class MenuPage extends StatelessWidget {
                     return Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(16),
-                      child: ElevatedButton(
-                        onPressed: cart.itemCount > 0
-                            ? () {
-                          Navigator.of(context).push(
-                            PageRouteBuilder(
-                              pageBuilder: (context, animation, secondaryAnimation) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: const OrderDetailsPage(),
-                                );
-                              },
-                              opaque: false,
-                              barrierDismissible: true,
-                              barrierColor: Colors.black.withOpacity(0.5),
-                              transitionDuration: const Duration(milliseconds: 300),
-                            ),
-                          );
-                        }
-                            : null,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFFFE135),
-                          foregroundColor: Colors.black,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          disabledBackgroundColor: Colors.grey[300],
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(Icons.shopping_cart, size: 24),
-                            const SizedBox(width: 8),
-                            Text(
-                              'Continue${cart.itemCount > 0 ? ' (${cart.itemCount})' : ''}',
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: SizedBox(
+                          width: 180,
+                          child: ElevatedButton(
+                            onPressed: cart.itemCount > 0
+                                ? () {
+                              Navigator.of(context).push(
+                                PageRouteBuilder(
+                                  pageBuilder: (context, animation, secondaryAnimation) {
+                                    return FadeTransition(
+                                      opacity: animation,
+                                      child: const OrderDetailsPage(),
+                                    );
+                                  },
+                                  opaque: false,
+                                  barrierDismissible: true,
+                                  barrierColor: Colors.black.withOpacity(0.5),
+                                  transitionDuration: const Duration(milliseconds: 300),
+                                ),
+                              );
+                            }
+                                : null,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFFFFE135),
+                              foregroundColor: Colors.black,
+                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
                               ),
+                              disabledBackgroundColor: Colors.grey[300],
+                              minimumSize: const Size(150, 40),
                             ),
-                          ],
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(Icons.shopping_cart, size: 20),
+                                const SizedBox(width: 6),
+                                Text(
+                                  'Continue${cart.itemCount > 0 ? ' (${cart.itemCount})' : ''}',
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     );

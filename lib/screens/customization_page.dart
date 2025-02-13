@@ -15,6 +15,7 @@ class CustomizationPage extends StatefulWidget {
 class _CustomizationPageState extends State<CustomizationPage> {
   int fullServings = 0;
   int halfServings = 0;
+  String? spiceLevel;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,7 @@ class _CustomizationPageState extends State<CustomizationPage> {
             ),
             const SizedBox(height: 32),
             const Text(
-              'Servings',
+              'Size',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
@@ -59,27 +60,45 @@ class _CustomizationPageState extends State<CustomizationPage> {
               setState(() => fullServings = value);
             }),
             const SizedBox(height: 12),
-            _buildServingOption('1/2', halfServings, (value) {
+            _buildServingOption('Half', halfServings, (value) {
               setState(() => halfServings = value);
             }),
+            const SizedBox(height: 24),
+            const Text(
+              'Spice Level',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 16),
+            _buildSpiceLevelOption('Less Spice'),
+            const SizedBox(height: 8),
+            _buildSpiceLevelOption('More Spice'),
             const SizedBox(height: 32),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: (fullServings > 0 || halfServings > 0)
+                onPressed: (fullServings > 0 || halfServings > 0) && spiceLevel != null
                     ? () {
                   final cart = context.read<CartModel>();
                   if (fullServings > 0) {
                     cart.addToCart(
                       widget.item,
-                      {'serving': 'Full'},
+                      {
+                        'serving': 'Full',
+                        'spiceLevel': spiceLevel,
+                      },
                       fullServings,
                     );
                   }
                   if (halfServings > 0) {
                     cart.addToCart(
                       widget.item,
-                      {'serving': 'Half'},
+                      {
+                        'serving': 'Half',
+                        'spiceLevel': spiceLevel,
+                      },
                       halfServings,
                     );
                   }
@@ -158,6 +177,55 @@ class _CustomizationPageState extends State<CustomizationPage> {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildSpiceLevelOption(String level) {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          spiceLevel = level;
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey[300]!),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              level,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            Container(
+              width: 24,
+              height: 24,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: spiceLevel == level ? const Color(0xFFFFE135) : Colors.grey[400]!,
+                  width: 2,
+                ),
+              ),
+              child: spiceLevel == level
+                  ? Container(
+                margin: const EdgeInsets.all(2),
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color(0xFFFFE135),
+                ),
+              )
+                  : null,
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -63,8 +63,8 @@ class _OrderProcessingPageState extends State<OrderProcessingPage>
       backgroundColor: const Color(0xFFFFE135),
       elevation: 0,
       child: Container(
-        width: 400,
-        height: 300,
+        width: 1000,
+        height: 1000,
         padding: const EdgeInsets.all(24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
