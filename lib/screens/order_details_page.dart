@@ -122,15 +122,32 @@ class OrderDetailsPage extends StatelessWidget {
                               ),
                             );
                           }
+
+                          // Grouping items based on name and customization
+                          final Map<String, Map<String, dynamic>> groupedItems = {};
+                          for (var item in cart.items) {
+                            String key = "${item.item.name} | ${item.customizationString}";
+                            if (groupedItems.containsKey(key)) {
+                              groupedItems[key]!['quantity'] += item.quantity;
+                            } else {
+                              groupedItems[key] = {
+                                'quantity': item.quantity,
+                                'price': item.totalPrice,
+                              };
+                            }
+                          }
+
                           return ListView.builder(
-                            itemCount: cart.items.length,
+                            itemCount: groupedItems.length,
                             itemBuilder: (context, index) {
-                              final item = cart.items[index];
+                              String key = groupedItems.keys.elementAt(index);
+                              var itemData = groupedItems[key]!;
                               return ListTile(
-                                title: Text(item.item.name),
-                                subtitle: Text(item.customizationString),
+                                title: Text(key.split(" | ")[0]),
+                                subtitle: Text("${itemData['quantity']}x ${key.split(" | ")[1]}",
+                                    style: const TextStyle(fontSize: 14, color: Colors.grey)),
                                 trailing: Text(
-                                  '₹${item.totalPrice.toStringAsFixed(2)}',
+                                  '₹${itemData['price'].toStringAsFixed(2)}',
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
