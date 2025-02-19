@@ -10,6 +10,10 @@ class MenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final isSmallScreen = screenWidth < 600;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -59,13 +63,71 @@ class MenuPage extends StatelessWidget {
           ],
         ),
       ),
-      body: Row(
+      body: isSmallScreen
+          ? Column(
+        children: [
+          Expanded(child: MenuGrid()),
+          Consumer<CartModel>(
+            builder: (context, cart, child) {
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ElevatedButton(
+                  onPressed: cart.itemCount > 0
+                      ? () {
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: const OrderDetailsPage(),
+                          );
+                        },
+                        opaque: false,
+                        barrierDismissible: true,
+                        barrierColor: Colors.black.withOpacity(0.5),
+                        transitionDuration: const Duration(milliseconds: 300),
+                      ),
+                    );
+                  }
+                      : null,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFFFE135),
+                    foregroundColor: Colors.black,
+                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    disabledBackgroundColor: Colors.grey[300],
+                    minimumSize: const Size(150, 40),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.shopping_cart, size: 20),
+                      const SizedBox(width: 6),
+                      Text(
+                        'Continue${cart.itemCount > 0 ? ' (${cart.itemCount})' : ''}',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      )
+          : Row(
         children: [
           const MenuSidebar(),
           Expanded(
             child: Column(
               children: [
-                const Expanded(child: MenuGrid()),
+                Expanded(child: MenuGrid()),
                 Consumer<CartModel>(
                   builder: (context, cart, child) {
                     return Container(
