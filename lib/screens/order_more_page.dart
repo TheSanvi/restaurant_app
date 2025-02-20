@@ -88,7 +88,8 @@ class OrderMorePage extends StatelessWidget {
                       ),
                     ),
 
-                    // Recommendations Section
+                    /*
+                    // Recommendations Section - You might also like (Commented)
                     Padding(
                       padding: const EdgeInsets.all(16),
                       child: Column(
@@ -184,6 +185,7 @@ class OrderMorePage extends StatelessWidget {
                         ],
                       ),
                     ),
+                    */
                   ],
                 ),
               ),
@@ -239,6 +241,8 @@ class OrderMorePage extends StatelessWidget {
                   const SizedBox(height: 16),
                   Row(
                     children: [
+                      /*
+                      // Parcel Item Button (Commented)
                       Expanded(
                         child: ElevatedButton(
                           onPressed: () => Navigator.of(context).popUntil((route) => route.isFirst),
@@ -258,6 +262,7 @@ class OrderMorePage extends StatelessWidget {
                           ),
                         ),
                       ),
+                      */
                       const SizedBox(width: 8),
                       Expanded(
                         child: ElevatedButton(
@@ -271,7 +276,7 @@ class OrderMorePage extends StatelessWidget {
                             ),
                           ),
                           child: const Text(
-                            'Add New Item/Repeat',
+                            'Add New Item',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                             ),

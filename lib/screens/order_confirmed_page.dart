@@ -12,10 +12,26 @@ class _OrderConfirmedPageState extends State<OrderConfirmedPage>
     with TickerProviderStateMixin {
   late AnimationController _fadeController;
   late Animation<double> _fadeAnimation;
+  late AnimationController _slideController;
+  late Animation<Offset> _slideAnimation;
 
   @override
   void initState() {
     super.initState();
+
+    // Slide animation from below
+    _slideController = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 1), // Start from below
+      end: Offset.zero, // Move to normal position
+    ).animate(CurvedAnimation(
+      parent: _slideController,
+      curve: Curves.easeOut,
+    ));
 
     // Fade animation for text
     _fadeController = AnimationController(
@@ -28,11 +44,11 @@ class _OrderConfirmedPageState extends State<OrderConfirmedPage>
       end: 1.0,
     ).animate(CurvedAnimation(
       parent: _fadeController,
-      curve: const Interval(0.3, 1.0),
+      curve: const Interval(0.3, 1.0, curve: Curves.easeIn),
     ));
 
     // Start animations
-    _fadeController.forward();
+    _slideController.forward().then((_) => _fadeController.forward());
 
     // Navigate to processing page after delay
     Future.delayed(const Duration(milliseconds: 2500), () {
@@ -54,68 +70,72 @@ class _OrderConfirmedPageState extends State<OrderConfirmedPage>
   @override
   void dispose() {
     _fadeController.dispose();
+    _slideController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Container(
-        width: 400,
-        height: 300,
-        padding: const EdgeInsets.all(24),
-        child: Stack(
-          clipBehavior: Clip.none,
-          alignment: Alignment.center,
-          children: [
-            // GIF Animation from assets
-            Positioned(
-              top: 20,
-              child: SizedBox(
-                width: 280,
-                height: 140,
-                child: Image.asset(
-                  'assets/confirmorder.gif.gif',
-                  fit: BoxFit.contain,
+    return SlideTransition(
+      position: _slideAnimation,
+      child: Dialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Container(
+          width: 400,
+          height: 300,
+          padding: const EdgeInsets.all(24),
+          child: Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.center,
+            children: [
+              // GIF Animation from assets
+              Positioned(
+                top: 20,
+                child: SizedBox(
+                  width: 280,
+                  height: 140,
+                  child: Image.asset(
+                    'assests/Animation_1740064076613.gif',
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ),
-            ),
 
-            // Confirmation Text with Fade Animation
-            Positioned(
-              bottom: 40,
-              left: 0,
-              right: 0,
-              child: FadeTransition(
-                opacity: _fadeAnimation,
-                child: const Column(
-                  children: [
-                    Text(
-                      'Your Order is Confirmed!',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
+              // Confirmation Text with Fade Animation
+              Positioned(
+                bottom: 40,
+                left: 0,
+                right: 0,
+                child: FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: const Column(
+                    children: [
+                      Text(
+                        'Your Order is Confirmed!',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      'Order #219',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey,
+                      SizedBox(height: 8),
+                      Text(
+                        'Order #219',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

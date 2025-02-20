@@ -19,7 +19,7 @@ class OrderBillPage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Header
+            // Header (Fixed)
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -34,7 +34,6 @@ class OrderBillPage extends StatelessWidget {
                     icon: const Icon(Icons.arrow_back),
                     onPressed: () => Navigator.pop(context),
                   ),
-
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
@@ -90,189 +89,176 @@ class OrderBillPage extends StatelessWidget {
               ),
             ),
 
-            // Invoice Content
+            // Invoice Content (Fixed)
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Text(
+                    'Invoice ID-219',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    'Bill Summary',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                ],
+              ),
+            ),
+
+            // Scrollable Order Items
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Invoice #219',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'Bill Summary',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Consumer<CartModel>(
+                  builder: (context, cart, child) {
+                    if (cart.items.isEmpty) {
+                      return Center(
+                        child: Text(
+                          'No items in cart',
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: 16,
+                          ),
+                        ),
+                      );
+                    }
 
-                    // Order Items
-                    Consumer<CartModel>(
-                      builder: (context, cart, child) {
-                        if (cart.items.isEmpty) {
-                          return Center(
-                            child: Text(
-                              'No items in cart',
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 16,
-                              ),
+                    return Column(
+                      children: cart.items
+                          .map((item) => Container(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Colors.grey[200]!,
                             ),
-                          );
-                        }
-
-                        return Column(
+                          ),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ...cart.items.map((item) => Container(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color: Colors.grey[200]!,
-                                  ),
-                                ),
-                              ),
-                              child: Row(
+                            Expanded(
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          item.item.name,
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 4),
-                                        Text(
-                                          '×${item.quantity}',
-                                          style: TextStyle(
-                                            color: Colors.grey[600],
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                        if (item.customizationString.isNotEmpty)
-                                          Padding(
-                                            padding: const EdgeInsets.only(top: 4),
-                                            child: Text(
-                                              item.customizationString,
-                                              style: TextStyle(
-                                                color: Colors.grey[600],
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                          ),
-                                      ],
-                                    ),
-                                  ),
                                   Text(
-                                    '₹${item.totalPrice.toStringAsFixed(2)}',
+                                    item.item.name,
                                     style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                ],
-                              ),
-                            )).toList(),
-
-                            const SizedBox(height: 24),
-
-                            // Bill Details
-                            Container(
-                              padding: const EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[50],
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Column(
-                                children: [
-                                  _buildBillRow('Item Total', cart.subtotal),
-                                  const SizedBox(height: 8),
-                                  _buildBillRow(
-                                    'GST and Restaurant charges',
-                                    cart.tax,
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    '×${item.quantity}',
+                                    style: TextStyle(
+                                      color: Colors.grey[600],
+                                      fontSize: 14,
+                                    ),
                                   ),
-                                  const Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 8),
-                                    child: Divider(),
-                                  ),
-                                  _buildBillRow(
-                                    'Grand Total',
-                                    cart.total,
-                                    isTotal: true,
-                                  ),
+                                  if (item.customizationString.isNotEmpty)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 4),
+                                      child: Text(
+                                        item.customizationString,
+                                        style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ),
                                 ],
                               ),
                             ),
+                            Text(
+                              '₹${item.totalPrice.toStringAsFixed(2)}',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                           ],
-                        );
-                      },
-                    ),
-                  ],
+                        ),
+                      ))
+                          .toList(),
+                    );
+                  },
                 ),
               ),
             ),
 
-            // Confirm Button
+            // Bill Summary and Confirm Button (Fixed)
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.grey[50],
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(12),
+                ),
                 border: Border(
                   top: BorderSide(color: Colors.grey[200]!),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
-                    spreadRadius: 1,
-                    blurRadius: 5,
-                    offset: const Offset(0, -3),
+              ),
+              child: Column(
+                children: [
+                  Consumer<CartModel>(
+                    builder: (context, cart, child) => Column(
+                      children: [
+                        _buildBillRow('Item Total', cart.subtotal),
+                        const SizedBox(height: 8),
+                        _buildBillRow('GST and Restaurant charges', cart.tax),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: Divider(),
+                        ),
+                        _buildBillRow('Grand Total', cart.total, isTotal: true),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            pageBuilder: (context, animation, secondaryAnimation) =>
+                                FadeTransition(
+                                  opacity: animation,
+                                  child: const PaymentMethodPage(),
+                                ),
+                            transitionDuration: const Duration(milliseconds: 500),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFFFE135),
+                        foregroundColor: Colors.black,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: const Text(
+                        'Confirm',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
-              ),
-              child: SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) =>
-                            FadeTransition(
-                              opacity: animation,
-                              child: const PaymentMethodPage(),
-                            ),
-                        transitionDuration: const Duration(milliseconds: 500),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFFE135),
-                    foregroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: const Text(
-                    'Confirm',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
               ),
             ),
           ],

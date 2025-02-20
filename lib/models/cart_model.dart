@@ -1,3 +1,4 @@
+
 import 'package:flutter/foundation.dart';
 import 'menu_item.dart';
 
@@ -10,9 +11,9 @@ class CartModel extends ChangeNotifier {
 
   double get subtotal => _items.fold(0, (total, item) => total + item.totalPrice);
 
-  double get tax => subtotal * 0.18; // 18% GST
+  double get tax => subtotal * 0.05; // 5% GST
 
-  double get total => subtotal + tax;
+  double get total => double.parse((subtotal + tax).toStringAsFixed(3)); // 3 decimal places
 
   void addToCart(MenuItem item, Map<String, dynamic> customizations, int quantity) {
     final cartItem = CartItem(
