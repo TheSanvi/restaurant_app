@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'order_more_page.dart';
 
 class OrderProcessingPage extends StatefulWidget {
@@ -42,7 +43,7 @@ class _OrderProcessingPageState extends State<OrderProcessingPage>
             pageBuilder: (context, animation, secondaryAnimation) =>
                 FadeTransition(
                   opacity: animation,
-                  child: const OrderMorePage(),
+                  child: OrderMorePage(),
                 ),
             transitionDuration: const Duration(milliseconds: 500),
           ),
@@ -69,12 +70,12 @@ class _OrderProcessingPageState extends State<OrderProcessingPage>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // GIF Animation from assets
+            // Lottie Animation with increased size
             SizedBox(
-              width: 200,
-              height: 150,
-              child: Image.asset(
-                'assets/order_preparing.gif',
+              width: 300,
+              height: 250,
+              child: Lottie.asset(
+                'assests/Animation - 1740193965325.json',
                 fit: BoxFit.contain,
               ),
             ),

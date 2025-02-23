@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 
 class MenuSidebar extends StatefulWidget {
-  const MenuSidebar({Key? key}) : super(key: key);
+  final String selectedCategory;
+  final Function(String) onCategorySelected;
+
+  const MenuSidebar({
+    Key? key,
+    required this.selectedCategory,
+    required this.onCategorySelected,
+  }) : super(key: key);
 
   @override
   State<MenuSidebar> createState() => _MenuSidebarState();
 }
 
 class _MenuSidebarState extends State<MenuSidebar> {
-  String selectedCategory = 'Curry';
   final ScrollController _scrollController = ScrollController();
 
   final List<Map<String, dynamic>> categories = [
@@ -18,7 +24,6 @@ class _MenuSidebarState extends State<MenuSidebar> {
     {'name': 'Starters', 'count': 59},
     {'name': 'Dessert', 'count': 15},
     {'name': 'Beverages', 'count': 15},
-    {'name': 'Soups', 'count': 15},
     {'name': 'Soups', 'count': 15},
   ];
 
@@ -36,7 +41,7 @@ class _MenuSidebarState extends State<MenuSidebar> {
           itemCount: categories.length,
           itemBuilder: (context, index) {
             final category = categories[index];
-            final isSelected = category['name'] == selectedCategory;
+            final isSelected = category['name'] == widget.selectedCategory;
 
             return Container(
               margin: const EdgeInsets.only(bottom: 8),
@@ -48,9 +53,7 @@ class _MenuSidebarState extends State<MenuSidebar> {
                 color: Colors.transparent,
                 child: InkWell(
                   onTap: () {
-                    setState(() {
-                      selectedCategory = category['name'];
-                    });
+                    widget.onCategorySelected(category['name']);
                   },
                   borderRadius: BorderRadius.circular(8),
                   child: Padding(

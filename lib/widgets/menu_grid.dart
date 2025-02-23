@@ -3,7 +3,9 @@ import '../models/menu_item.dart';
 import '../screens/customization_page.dart';
 
 class MenuGrid extends StatelessWidget {
-  const MenuGrid({Key? key}) : super(key: key);
+  final String selectedCategory;
+
+  const MenuGrid({Key? key, required this.selectedCategory}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +13,7 @@ class MenuGrid extends StatelessWidget {
       MenuItem(
         id: '1',
         name: 'Paneer Masala',
-        description: 'A juicy, seasoned patty served with toppings like lettuce, tomato, cheese, and sauces for a smoky, flavorful bite.',
+        description: 'Delicious paneer in spicy masala sauce.',
         price: 250,
         image: 'assets/paneer_masala.jpg',
         category: 'Curry',
@@ -20,7 +22,7 @@ class MenuGrid extends StatelessWidget {
       MenuItem(
         id: '2',
         name: 'Dhal Makhani',
-        description: 'A juicy, seasoned patty served with toppings like lettuce, tomato, cheese, and sauces for a smoky, flavorful bite.',
+        description: 'Creamy lentils cooked in butter.',
         price: 200,
         image: 'assets/dhal_makhani.jpg',
         category: 'Curry',
@@ -29,113 +31,45 @@ class MenuGrid extends StatelessWidget {
       MenuItem(
         id: '3',
         name: 'Malai Kofta',
-        description: 'A juicy, seasoned patty served with toppings like lettuce, tomato, cheese, and sauces for a smoky, flavorful bite.',
+        description: 'Soft koftas in rich creamy gravy.',
         price: 300,
         image: 'assets/malai_kofta.jpg',
         category: 'Curry',
         customizationOptions: {'servings': true},
       ),
-      // Duplicate items to fill the grid
       MenuItem(
         id: '4',
-        name: 'Paneer Masala',
-        description: 'A juicy, seasoned patty served with toppings like lettuce, tomato, cheese, and sauces for a smoky, flavorful bite.',
-        price: 250,
-        image: 'assets/paneer_masala.jpg',
+        name: 'Butter Naan',
+        description: 'Soft and fluffy naan with butter.',
+        price: 50,
+        image: 'assets/butter_naan.jpg',
         category: 'Chapathi',
-        customizationOptions: {'servings': true},
+        customizationOptions: {'servings': false},
       ),
       MenuItem(
         id: '5',
-        name: 'Paneer Masala',
-        description: 'A juicy, seasoned patty served with toppings like lettuce, tomato, cheese, and sauces for a smoky, flavorful bite.',
-        price: 250,
-        image: 'assets/paneer_masala.jpg',
-        category: 'Chapathi',
-        customizationOptions: {'servings': true},
+        name: 'Chicken Tikka',
+        description: 'Grilled chicken with special spices.',
+        price: 350,
+        image: 'assets/chicken_tikka.jpg',
+        category: 'Starters',
+        customizationOptions: {'spicy_level': true},
       ),
       MenuItem(
         id: '6',
-        name: 'Paneer Masala',
-        description: 'A juicy, seasoned patty served with toppings like lettuce, tomato, cheese, and sauces for a smoky, flavorful bite.',
-        price: 250,
-        image: 'assets/paneer_masala.jpg',
-        category: 'Chapathi',
-        customizationOptions: {'servings': true},
-      ),MenuItem(
-        id: '6',
-        name: 'Paneer Masala',
-        description: 'A juicy, seasoned patty served with toppings like lettuce, tomato, cheese, and sauces for a smoky, flavorful bite.',
-        price: 250,
-        image: 'assets/paneer_masala.jpg',
-        category: 'Chapathi',
-        customizationOptions: {'servings': true},
-      ),MenuItem(
-        id: '6',
-        name: 'Paneer Masala',
-        description: 'A juicy, seasoned patty served with toppings like lettuce, tomato, cheese, and sauces for a smoky, flavorful bite.',
-        price: 250,
-        image: 'assets/paneer_masala.jpg',
-        category: 'Chapathi',
-        customizationOptions: {'servings': true},
-      ),MenuItem(
-        id: '6',
-        name: 'Paneer Masala',
-        description: 'A juicy, seasoned patty served with toppings like lettuce, tomato, cheese, and sauces for a smoky, flavorful bite.',
-        price: 250,
-        image: 'assets/paneer_masala.jpg',
-        category: 'Chapathi',
-        customizationOptions: {'servings': true},
-      ),MenuItem(
-        id: '6',
-        name: 'Paneer Masala',
-        description: 'A juicy, seasoned patty served with toppings like lettuce, tomato, cheese, and sauces for a smoky, flavorful bite.',
-        price: 250,
-        image: 'assets/paneer_masala.jpg',
-        category: 'Starters',
-        customizationOptions: {'servings': true},
-      ),MenuItem(
-        id: '6',
-        name: 'Paneer Masala',
-        description: 'A juicy, seasoned patty served with toppings like lettuce, tomato, cheese, and sauces for a smoky, flavorful bite.',
-        price: 250,
-        image: 'assets/paneer_masala.jpg',
-        category: 'Starters',
-        customizationOptions: {'servings': true},
-      ),MenuItem(
-        id: '6',
-        name: 'Paneer Masala',
-        description: 'A juicy, seasoned patty served with toppings like lettuce, tomato, cheese, and sauces for a smoky, flavorful bite.',
-        price: 250,
-        image: 'assets/paneer_masala.jpg',
-        category: 'Starters',
-        customizationOptions: {'servings': true},
-      ),MenuItem(
-        id: '6',
-        name: 'Paneer Masala',
-        description: 'A juicy, seasoned patty served with toppings like lettuce, tomato, cheese, and sauces for a smoky, flavorful bite.',
-        price: 250,
-        image: 'assets/paneer_masala.jpg',
-        category: 'Starters',
-        customizationOptions: {'servings': true},
-      ),MenuItem(
-        id: '6',
-        name: 'Paneer Masala',
-        description: 'A juicy, seasoned patty served with toppings like lettuce, tomato, cheese, and sauces for a smoky, flavorful bite.',
-        price: 250,
-        image: 'assets/paneer_masala.jpg',
-        category: 'Starters',
-        customizationOptions: {'servings': true},
-      ),MenuItem(
-        id: '6',
-        name: 'Paneer Masala',
-        description: 'A juicy, seasoned patty served with toppings like lettuce, tomato, cheese, and sauces for a smoky, flavorful bite.',
-        price: 250,
-        image: 'assets/paneer_masala.jpg',
-        category: 'Starters',
-        customizationOptions: {'servings': true},
+        name: 'Gulab Jamun',
+        description: 'Sweet dumplings in sugar syrup.',
+        price: 100,
+        image: 'assets/gulab_jamun.jpg',
+        category: 'Dessert',
+        customizationOptions: {'servings': false},
       ),
     ];
+
+    // **Filter items based on selected category**
+    final filteredItems = selectedCategory == 'All Menu'
+        ? menuItems
+        : menuItems.where((item) => item.category == selectedCategory).toList();
 
     return GridView.builder(
       padding: const EdgeInsets.all(16),
@@ -145,9 +79,9 @@ class MenuGrid extends StatelessWidget {
         crossAxisSpacing: 16,
         mainAxisSpacing: 16,
       ),
-      itemCount: menuItems.length,
+      itemCount: filteredItems.length,
       itemBuilder: (context, index) {
-        final item = menuItems[index];
+        final item = filteredItems[index];
         return Container(
           decoration: BoxDecoration(
             color: const Color(0xFFFFE135),

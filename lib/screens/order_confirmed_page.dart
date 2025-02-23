@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'order_processing_page.dart';
 
 class OrderConfirmedPage extends StatefulWidget {
@@ -19,21 +20,19 @@ class _OrderConfirmedPageState extends State<OrderConfirmedPage>
   void initState() {
     super.initState();
 
-    // Slide animation from below
     _slideController = AnimationController(
       duration: const Duration(milliseconds: 500),
       vsync: this,
     );
 
     _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 1), // Start from below
-      end: Offset.zero, // Move to normal position
+      begin: const Offset(0, 1),
+      end: Offset.zero,
     ).animate(CurvedAnimation(
       parent: _slideController,
       curve: Curves.easeOut,
     ));
 
-    // Fade animation for text
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
@@ -47,10 +46,8 @@ class _OrderConfirmedPageState extends State<OrderConfirmedPage>
       curve: const Interval(0.3, 1.0, curve: Curves.easeIn),
     ));
 
-    // Start animations
     _slideController.forward().then((_) => _fadeController.forward());
 
-    // Navigate to processing page after delay
     Future.delayed(const Duration(milliseconds: 2500), () {
       if (mounted) {
         Navigator.of(context).pushReplacement(
@@ -91,14 +88,14 @@ class _OrderConfirmedPageState extends State<OrderConfirmedPage>
             clipBehavior: Clip.none,
             alignment: Alignment.center,
             children: [
-              // GIF Animation from assets
+              // Lottie Animation
               Positioned(
                 top: 20,
                 child: SizedBox(
                   width: 280,
                   height: 140,
-                  child: Image.asset(
-                    'assests/Animation_1740064076613.gif',
+                  child: Lottie.asset(
+                    'assests/Animation - 1740193194310.json',
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -124,7 +121,7 @@ class _OrderConfirmedPageState extends State<OrderConfirmedPage>
                       ),
                       SizedBox(height: 8),
                       Text(
-                        'Order #219',
+                        'Order ID-219',
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey,

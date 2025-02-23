@@ -5,13 +5,25 @@ import '../widgets/menu_sidebar.dart';
 import '../widgets/menu_grid.dart';
 import 'order_details_page.dart';
 
-class MenuPage extends StatelessWidget {
+class MenuPage extends StatefulWidget {
   const MenuPage({Key? key}) : super(key: key);
+
+  @override
+  _MenuPageState createState() => _MenuPageState();
+}
+
+class _MenuPageState extends State<MenuPage> {
+  String selectedCategory = 'All Menu'; // Default category
+
+  void updateCategory(String category) {
+    setState(() {
+      selectedCategory = category;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
     final isSmallScreen = screenWidth < 600;
 
     return Scaffold(
@@ -66,7 +78,7 @@ class MenuPage extends StatelessWidget {
       body: isSmallScreen
           ? Column(
         children: [
-          Expanded(child: MenuGrid()),
+          Expanded(child: MenuGrid(selectedCategory: selectedCategory)),
           Consumer<CartModel>(
             builder: (context, cart, child) {
               return Padding(
@@ -76,7 +88,8 @@ class MenuPage extends StatelessWidget {
                       ? () {
                     Navigator.of(context).push(
                       PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) {
+                        pageBuilder:
+                            (context, animation, secondaryAnimation) {
                           return FadeTransition(
                             opacity: animation,
                             child: const OrderDetailsPage(),
@@ -85,7 +98,8 @@ class MenuPage extends StatelessWidget {
                         opaque: false,
                         barrierDismissible: true,
                         barrierColor: Colors.black.withOpacity(0.5),
-                        transitionDuration: const Duration(milliseconds: 300),
+                        transitionDuration:
+                        const Duration(milliseconds: 300),
                       ),
                     );
                   }
@@ -93,7 +107,8 @@ class MenuPage extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFFFE135),
                     foregroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -123,11 +138,15 @@ class MenuPage extends StatelessWidget {
       )
           : Row(
         children: [
-          const MenuSidebar(),
+          // ✅ Fix: Passing required parameters to MenuSidebar
+          MenuSidebar(
+            selectedCategory: selectedCategory,
+            onCategorySelected: updateCategory,
+          ),
           Expanded(
             child: Column(
               children: [
-                Expanded(child: MenuGrid()),
+                Expanded(child: MenuGrid(selectedCategory: selectedCategory)),
                 Consumer<CartModel>(
                   builder: (context, cart, child) {
                     return Container(
@@ -142,7 +161,8 @@ class MenuPage extends StatelessWidget {
                                 ? () {
                               Navigator.of(context).push(
                                 PageRouteBuilder(
-                                  pageBuilder: (context, animation, secondaryAnimation) {
+                                  pageBuilder: (context, animation,
+                                      secondaryAnimation) {
                                     return FadeTransition(
                                       opacity: animation,
                                       child: const OrderDetailsPage(),
@@ -150,8 +170,10 @@ class MenuPage extends StatelessWidget {
                                   },
                                   opaque: false,
                                   barrierDismissible: true,
-                                  barrierColor: Colors.black.withOpacity(0.5),
-                                  transitionDuration: const Duration(milliseconds: 300),
+                                  barrierColor:
+                                  Colors.black.withOpacity(0.5),
+                                  transitionDuration:
+                                  const Duration(milliseconds: 300),
                                 ),
                               );
                             }
@@ -159,7 +181,8 @@ class MenuPage extends StatelessWidget {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFFFE135),
                               foregroundColor: Colors.black,
-                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 16),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
