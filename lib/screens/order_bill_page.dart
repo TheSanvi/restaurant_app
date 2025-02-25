@@ -42,10 +42,25 @@ class OrderBillPage extends StatelessWidget {
                         Row(
                           children: [
                             const Text(
-                              'ID-219',
+                              'ID-219  ',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              'November 07, 2024',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: 12,
+                              ),
+                            ),
+                            Text(
+                              '11:20 am',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: 12,
                               ),
                             ),
                             const Spacer(),
@@ -67,21 +82,21 @@ class OrderBillPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'November 07, 2024',
-                          style: TextStyle(
-                            color: Colors.grey[600],
-                            fontSize: 12,
-                          ),
-                        ),
-                        Text(
-                          '11:20 am',
-                          style: TextStyle(
-                            color: Colors.grey[600],
-                            fontSize: 12,
-                          ),
-                        ),
+                        // const SizedBox(height: 4),
+                        // Text(
+                        //   'November 07, 2024',
+                        //   style: TextStyle(
+                        //     color: Colors.grey[600],
+                        //     fontSize: 12,
+                        //   ),
+                        // ),
+                        // Text(
+                        //   '11:20 am',
+                        //   style: TextStyle(
+                        //     color: Colors.grey[600],
+                        //     fontSize: 12,
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
@@ -91,26 +106,19 @@ class OrderBillPage extends StatelessWidget {
 
             // Invoice Content (Fixed)
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
-                  Text(
-                    'Invoice ID-219',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 16),
+
                   Text(
                     'Bill Summary',
                     style: TextStyle(
                       fontSize: 16,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
-                  SizedBox(height: 16),
+                  SizedBox(height:4),
                 ],
               ),
             ),
@@ -215,7 +223,7 @@ class OrderBillPage extends StatelessWidget {
                     builder: (context, cart, child) => Column(
                       children: [
                         _buildBillRow('Item Total', cart.subtotal),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 6),
                         _buildBillRow('GST and Restaurant charges', cart.tax),
                         const Padding(
                           padding: EdgeInsets.symmetric(vertical: 8),

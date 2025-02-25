@@ -33,57 +33,64 @@ class _MenuSidebarState extends State<MenuSidebar> {
       width: 160,
       color: Colors.white,
       padding: const EdgeInsets.all(12),
-      child: Scrollbar(
-        controller: _scrollController,
-        thumbVisibility: true,
-        child: ListView.builder(
+      child: ScrollbarTheme(
+        data: ScrollbarThemeData(
+          thumbColor: MaterialStateProperty.all(Colors.white.withOpacity(0.2)), // Low opacity
+          thickness: MaterialStateProperty.all(4), // Thin scrollbar
+          radius: const Radius.circular(8), // Rounded scrollbar
+        ),
+        child: Scrollbar(
           controller: _scrollController,
-          itemCount: categories.length,
-          itemBuilder: (context, index) {
-            final category = categories[index];
-            final isSelected = category['name'] == widget.selectedCategory;
+          thumbVisibility: true,
+          child: ListView.builder(
+            controller: _scrollController,
+            itemCount: categories.length,
+            itemBuilder: (context, index) {
+              final category = categories[index];
+              final isSelected = category['name'] == widget.selectedCategory;
 
-            return Container(
-              margin: const EdgeInsets.only(bottom: 8),
-              decoration: BoxDecoration(
-                color: isSelected ? const Color(0xFFFFE135) : Colors.grey[200],
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () {
-                    widget.onCategorySelected(category['name']);
-                  },
+              return Container(
+                margin: const EdgeInsets.only(bottom: 8),
+                decoration: BoxDecoration(
+                  color: isSelected ? const Color(0xFFFFE135) : Colors.grey[200],
                   borderRadius: BorderRadius.circular(8),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          category['name'],
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                            color: Colors.black,
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      widget.onCategorySelected(category['name']);
+                    },
+                    borderRadius: BorderRadius.circular(8),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            category['name'],
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          '${category['count']} items',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[900],
+                          const SizedBox(height: 16, width: 24),
+                          Text(
+                            '${category['count']} items',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[900],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );

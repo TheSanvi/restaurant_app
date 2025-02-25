@@ -19,7 +19,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Container(
-        width: 400,
+        width: 600,
         padding: const EdgeInsets.symmetric(vertical: 24),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -40,7 +40,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
                         Text(
                           'Payment Method',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -67,7 +67,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
               child: Column(
                 children: [
                   _buildPaymentOption(
-                    'FacePae',
+                    'FacePae(Coming Soon)',
                     'Pay with your Face',
                     Icons.face,
                     'facepae',
@@ -84,7 +84,7 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
                   const SizedBox(height: 12),
                   _buildPaymentOption(
                     'Pay at Restaurant',
-                    'Pay by Cash/Card',
+                    'Cash/Card',
                     Icons.payment,
                     'cash',
                     backgroundColor: const Color(0xFFFFE135),

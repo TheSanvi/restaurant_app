@@ -28,108 +28,111 @@ class _CustomizationPageState extends State<CustomizationPage> {
       child: Container(
         width: width > 400 ? 400 : width,
         padding: const EdgeInsets.all(24),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  CircleAvatar(
-                    backgroundImage: AssetImage(widget.item.image),
-                    radius: 24,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                CircleAvatar(
+                  backgroundImage: AssetImage(widget.item.image),
+                  radius: 24,
+                ),
+                const SizedBox(width: 16),
+                Text(
+                  widget.item.name,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(width: 16),
-                  Text(
-                    widget.item.name,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Size',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 32),
-              const Text(
-                'Size',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
+                    const SizedBox(height: 16),
+                    _buildServingOption('Full', fullServings, (value) {
+                      setState(() => fullServings = value);
+                    }),
+                    const SizedBox(height: 12),
+                    _buildServingOption('Half', halfServings, (value) {
+                      setState(() => halfServings = value);
+                    }),
+                    const SizedBox(height: 24),
+                    const Text(
+                      'Spice Level (Optional)',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    _buildSpiceLevelOption('Less Spice'),
+                    const SizedBox(height: 8),
+                    _buildSpiceLevelOption('More Spice'),
+                    const SizedBox(height:2),
+                  ],
                 ),
               ),
-              const SizedBox(height: 16),
-              _buildServingOption('Full', fullServings, (value) {
-                setState(() => fullServings = value);
-              }),
-              const SizedBox(height: 12),
-              _buildServingOption('Half', halfServings, (value) {
-                setState(() => halfServings = value);
-              }),
-              const SizedBox(height: 24),
-
-              // Spice Level (Optional)
-              const Text(
-                'Spice Level (Optional)',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox(height: 16),
-              _buildSpiceLevelOption('Less Spice'),
-              const SizedBox(height: 8),
-              _buildSpiceLevelOption('More Spice'),
-              const SizedBox(height: 32),
-
-              // Done Button
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: (fullServings > 0 || halfServings > 0)
-                      ? () {
-                    final cart = context.read<CartModel>();
-                    if (fullServings > 0) {
-                      cart.addToCart(
-                        widget.item,
-                        {
-                          'serving': 'Full',
-                          'spiceLevel': spiceLevel ?? 'No Preference',
-                        },
-                        fullServings,
-                      );
-                    }
-                    if (halfServings > 0) {
-                      cart.addToCart(
-                        widget.item,
-                        {
-                          'serving': 'Half',
-                          'spiceLevel': spiceLevel ?? 'No Preference',
-                        },
-                        halfServings,
-                      );
-                    }
-                    Navigator.pop(context);
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: (fullServings > 0 || halfServings > 0)
+                    ? () {
+                  final cart = context.read<CartModel>();
+                  if (fullServings > 0) {
+                    cart.addToCart(
+                      widget.item,
+                      {
+                        'serving': 'Full',
+                        'spiceLevel': spiceLevel ?? 'No Preference',
+                      },
+                      fullServings,
+                    );
                   }
-                      : null, // Button enabled even if spice level is not selected
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFFE135),
-                    foregroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
+                  if (halfServings > 0) {
+                    cart.addToCart(
+                      widget.item,
+                      {
+                        'serving': 'Half',
+                        'spiceLevel': spiceLevel ?? 'No Preference',
+                      },
+                      halfServings,
+                    );
+                  }
+                  Navigator.pop(context);
+                }
+                    : null,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFFFE135),
+                  foregroundColor: Colors.black,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Text(
-                    'Done',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                ),
+                child: const Text(
+                  'Done',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

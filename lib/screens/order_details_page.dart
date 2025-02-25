@@ -12,15 +12,12 @@ class OrderDetailsPage extends StatelessWidget {
       color: Colors.transparent,
       child: Stack(
         children: [
-          // Backdrop
           GestureDetector(
             onTap: () => Navigator.pop(context),
             child: Container(
               color: Colors.black.withOpacity(0.5),
             ),
           ),
-
-          // Content
           TweenAnimationBuilder<double>(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeOut,
@@ -43,7 +40,6 @@ class OrderDetailsPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Header
                     Padding(
                       padding: const EdgeInsets.all(16),
                       child: Row(
@@ -61,25 +57,19 @@ class OrderDetailsPage extends StatelessWidget {
                           ),
                           const Spacer(),
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 6,
-                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                             margin: const EdgeInsets.only(right: 8),
                             decoration: BoxDecoration(
                               color: Colors.grey[200],
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: const Text(
-                              '#219',
+                              'ID-219',
                               style: TextStyle(color: Colors.black),
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 6,
-                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                             decoration: BoxDecoration(
                               color: const Color(0xFFFFE135),
                               borderRadius: BorderRadius.circular(4),
@@ -95,8 +85,6 @@ class OrderDetailsPage extends StatelessWidget {
                         ],
                       ),
                     ),
-
-                    // Cart Items
                     Expanded(
                       child: Consumer<CartModel>(
                         builder: (context, cart, child) {
@@ -123,34 +111,43 @@ class OrderDetailsPage extends StatelessWidget {
                             );
                           }
 
-                          // Grouping items based on name and customization
-                          final Map<String, Map<String, dynamic>> groupedItems = {};
-                          for (var item in cart.items) {
-                            String key = "${item.item.name} | ${item.customizationString}";
-                            if (groupedItems.containsKey(key)) {
-                              groupedItems[key]!['quantity'] += item.quantity;
-                            } else {
-                              groupedItems[key] = {
-                                'quantity': item.quantity,
-                                'price': item.totalPrice,
-                              };
-                            }
-                          }
-
                           return ListView.builder(
-                            itemCount: groupedItems.length,
+                            itemCount: cart.items.length,
                             itemBuilder: (context, index) {
-                              String key = groupedItems.keys.elementAt(index);
-                              var itemData = groupedItems[key]!;
+                              final item = cart.items[index];
+
                               return ListTile(
-                                title: Text(key.split(" | ")[0]),
-                                subtitle: Text("${itemData['quantity']}x ${key.split(" | ")[1]}",
-                                    style: const TextStyle(fontSize: 14, color: Colors.grey)),
-                                trailing: Text(
-                                  '₹${itemData['price'].toStringAsFixed(2)}',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                title: Text(item.item.name),
+                                subtitle: Text(
+                                  "${item.quantity}x ${item.customizationString}",
+                                  style: const TextStyle(fontSize: 14, color: Colors.grey),
+                                ),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      icon: const Icon(Icons.remove_circle_outline),
+                                      onPressed: () {
+                                        cart.decreaseQuantity(item);
+                                      },
+                                    ),
+                                    Text(
+                                      item.quantity.toString(),
+                                      style: const TextStyle(fontWeight: FontWeight.bold),
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(Icons.add_circle_outline),
+                                      onPressed: () {
+                                        cart.increaseQuantity(item);
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(Icons.delete, color: Colors.red),
+                                      onPressed: () {
+                                        cart.removeItem(item);
+                                      },
+                                    ),
+                                  ],
                                 ),
                               );
                             },
@@ -158,8 +155,6 @@ class OrderDetailsPage extends StatelessWidget {
                         },
                       ),
                     ),
-
-                    // Bottom Section
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(

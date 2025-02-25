@@ -52,7 +52,7 @@ class _MenuPageState extends State<MenuPage> {
                 'ID-219',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 14,
+                  fontSize: 18,
                 ),
               ),
             ),
@@ -67,8 +67,8 @@ class _MenuPageState extends State<MenuPage> {
                 'T2',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
             ),
@@ -182,12 +182,12 @@ class _MenuPageState extends State<MenuPage> {
                               backgroundColor: const Color(0xFFFFE135),
                               foregroundColor: Colors.black,
                               padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 16),
+                                  vertical: 14, horizontal: 16),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               disabledBackgroundColor: Colors.grey[300],
-                              minimumSize: const Size(150, 40),
+                              minimumSize: const Size(200, 50),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -198,7 +198,7 @@ class _MenuPageState extends State<MenuPage> {
                                 Text(
                                   'Continue${cart.itemCount > 0 ? ' (${cart.itemCount})' : ''}',
                                   style: const TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
