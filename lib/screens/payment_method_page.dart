@@ -67,27 +67,27 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
               child: Column(
                 children: [
                   _buildPaymentOption(
-                    'FacePae(Coming Soon)',
+                    'FacePae (Coming Soon)',
                     'Pay with your Face',
-                    Icons.face,
-                    'facepae',
-                    backgroundColor: Colors.white,
+                    value: 'facepae',
+                    backgroundColor: Colors.black,
+                    disableSelection: true, // Disabled selection
                   ),
                   const SizedBox(height: 12),
                   _buildPaymentOption(
                     'UPI Scan Code',
                     'Pay using QR',
-                    Icons.qr_code,
-                    'upi',
+                    value: 'upi',
                     backgroundColor: const Color(0xFFFFE135),
+                    icon: Icons.qr_code,
                   ),
                   const SizedBox(height: 12),
                   _buildPaymentOption(
                     'Pay at Restaurant',
                     'Cash/Card',
-                    Icons.payment,
-                    'cash',
+                    value: 'cash',
                     backgroundColor: const Color(0xFFFFE135),
+                    icon: Icons.payment,
                   ),
                 ],
               ),
@@ -103,12 +103,14 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
                   if (selectedMethod == 'upi') {
                     Navigator.of(context).push(
                       PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) =>
+                        pageBuilder:
+                            (context, animation, secondaryAnimation) =>
                             FadeTransition(
                               opacity: animation,
                               child: const ScannerPage(),
                             ),
-                        transitionDuration: const Duration(milliseconds: 500),
+                        transitionDuration:
+                        const Duration(milliseconds: 500),
                       ),
                     );
                   }
@@ -140,10 +142,11 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
 
   Widget _buildPaymentOption(
       String title,
-      String subtitle,
-      IconData icon,
-      String value, {
+      String subtitle, {
+        required String value,
         required Color backgroundColor,
+        IconData? icon,
+        bool disableSelection = false,
       }) {
     final isSelected = selectedMethod == value;
 
@@ -152,14 +155,18 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
         color: backgroundColor,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: isSelected ? Colors.black : Colors.transparent,
+          color: isSelected
+              ? (disableSelection ? Colors.transparent : Colors.black)
+              : Colors.transparent,
           width: 1,
         ),
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {
+          onTap: disableSelection
+              ? null
+              : () {
             setState(() {
               selectedMethod = value;
             });
@@ -170,14 +177,22 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
             child: Row(
               children: [
                 Container(
-                  width: 40,
-                  height: 40,
+                  width: 50,
+                  height: 50,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(color: Colors.black12),
                   ),
-                  child: Icon(icon, size: 20),
+                  child: value == 'facepae'
+                      ? const Image(image: AssetImage('assests/facepae.jpg'))
+                      : Icon(
+                    icon,
+                    size: 28,
+                    color: backgroundColor == Colors.black
+                        ? Colors.white
+                        : Colors.black,
+                  ),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
@@ -186,31 +201,37 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
                     children: [
                       Text(
                         title,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                        style: TextStyle(
+                          fontSize: 20, // Increased font size
+                          fontWeight: FontWeight.bold,
+                          color: backgroundColor == Colors.black
+                              ? Colors.white
+                              : Colors.black,
                         ),
                       ),
                       Text(
                         subtitle,
                         style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[600],
+                          fontSize: 16, // Increased font size
+                          color: backgroundColor == Colors.black
+                              ? Colors.white70
+                              : Colors.grey[600],
                         ),
                       ),
                     ],
                   ),
                 ),
-                Radio<String>(
-                  value: value,
-                  groupValue: selectedMethod,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedMethod = newValue;
-                    });
-                  },
-                  activeColor: Colors.black,
-                ),
+                if (!disableSelection)
+                  Radio<String>(
+                    value: value,
+                    groupValue: selectedMethod,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedMethod = newValue;
+                      });
+                    },
+                    activeColor: Colors.black,
+                  ),
               ],
             ),
           ),

@@ -1,8 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/screens/menu_page.dart'; // Replace with the correct import path
+import 'package:lottie/lottie.dart';
+import 'package:restaurant_app/screens/menu_page.dart'; // Correct import path
 
-class ScannerPage extends StatelessWidget {
+class ScannerPage extends StatefulWidget {
   const ScannerPage({Key? key}) : super(key: key);
+
+  @override
+  State<ScannerPage> createState() => _ScannerPageState();
+}
+
+class _ScannerPageState extends State<ScannerPage> {
+  bool isPaymentCompleted = false;
+
+  void _showPaymentSuccessAnimation() {
+    setState(() {
+      isPaymentCompleted = true;
+    });
+
+    Future.delayed(const Duration(seconds: 3), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MenuPage()),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +34,36 @@ class ScannerPage extends StatelessWidget {
       ),
       child: Container(
         width: 400,
-        height: 500,
+        height: isPaymentCompleted ? 350 : 500,
         padding: const EdgeInsets.all(24),
-        child: SingleChildScrollView( // Scrollable added here
+        child: isPaymentCompleted
+            ? Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+
+              decoration: BoxDecoration(
+                color: Colors.yellow[700], // Yellow Background
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Center(
+                child: Lottie.asset(
+                  'assests/Animation - 1740193194310.json',
+                  width: 150,
+                  repeat: false,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'Payment Successful!',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+          ],
+        )
+            : SingleChildScrollView(
           child: Column(
-            mainAxisSize: MainAxisSize.min, // Adjust to content size
+            mainAxisSize: MainAxisSize.min,
             children: [
               // Header with back button
               Row(
@@ -36,7 +82,7 @@ class ScannerPage extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  const SizedBox(width: 40), // For alignment
+                  const SizedBox(width: 40),
                 ],
               ),
               const SizedBox(height: 16),
@@ -61,7 +107,8 @@ class ScannerPage extends StatelessWidget {
 
               // Payment Instructions
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                padding: const EdgeInsets.symmetric(
+                    vertical: 8, horizontal: 16),
                 decoration: BoxDecoration(
                   color: Colors.grey[200],
                   borderRadius: BorderRadius.circular(8),
@@ -79,21 +126,17 @@ class ScannerPage extends StatelessWidget {
 
               // Payment Completed Button
               ElevatedButton(
-                onPressed: () {
-                  // Navigate to the MenuPage after payment
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MenuPage()),
-                  );
-                },
+                onPressed: _showPaymentSuccessAnimation,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.yellow[700],
                   foregroundColor: Colors.black,
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 12, horizontal: 24),
                 ),
                 child: const Text(
                   'Payment Completed',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
 
