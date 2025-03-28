@@ -181,10 +181,11 @@ class OrderDetailsPage extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    '₹${cart.total.toStringAsFixed(2)}',
+                                    '₹${cart.total.toStringAsFixed(2)} ',
                                     style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
+
                                     ),
                                   ),
                                 ],

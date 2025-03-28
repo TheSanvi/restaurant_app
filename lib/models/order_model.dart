@@ -4,13 +4,15 @@ import 'menu_item.dart';
 class OrderModel extends ChangeNotifier {
   final List<OrderItem> _items;
 
-  OrderModel({required List<OrderItem> items}) : _items = List<OrderItem>.from(items);
+  OrderModel({required List<OrderItem> items})
+      : _items = List<OrderItem>.from(items);
 
-  List<OrderItem> get items => _items;
+  List<OrderItem> get items => List.unmodifiable(_items);
 
-  double get subtotal => _items.fold(0, (total, item) => total + item.totalPrice);
+  double get subtotal => _items.fold(0.0, (total, item) => total + item.totalPrice);
 
-  double get total => subtotal; // No tax, just subtotal
+  // If you plan to add GST later, you can make total smarter
+  double get total => subtotal; // no GST yet
 
   void addItem(OrderItem item) {
     _items.add(item);
@@ -42,12 +44,9 @@ class OrderItem {
   double get totalPrice => item.price * quantity;
 
   String get customizationString {
-    List<String> customizationList = [];
-    customizations.forEach((key, value) {
-      if (value != null && value != false) {
-        customizationList.add('$key: $value');
-      }
-    });
-    return customizationList.join(', ');
+    return customizations.entries
+        .where((e) => e.value != null && e.value != false)
+        .map((e) => '${e.key}: ${e.value}')
+        .join(', ');
   }
 }

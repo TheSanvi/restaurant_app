@@ -12,7 +12,7 @@ class CartModel extends ChangeNotifier {
 
   double get tax => subtotal * 0.05; // 5% GST
 
-  double get total => double.parse((subtotal + tax).toStringAsFixed(3)); // 3 decimal places
+  double get total => double.parse((subtotal + tax).toStringAsFixed(3)); 
 
   void addToCart(MenuItem item, Map<String, dynamic> customizations, int quantity) {
     final existingItemIndex = _items.indexWhere((cartItem) =>

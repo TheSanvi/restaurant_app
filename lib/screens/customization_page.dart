@@ -97,7 +97,7 @@ class _CustomizationPageState extends State<CustomizationPage> {
                       widget.item,
                       {
                         'serving': 'Full',
-                        'spiceLevel': spiceLevel ?? 'No Preference',
+                        'SpiceLevel': spiceLevel ?? 'No Preference',
                       },
                       fullServings,
                     );
@@ -107,7 +107,7 @@ class _CustomizationPageState extends State<CustomizationPage> {
                       widget.item,
                       {
                         'serving': 'Half',
-                        'spiceLevel': spiceLevel ?? 'No Preference',
+                        'SpiceLevel': spiceLevel ?? 'No Preference',
                       },
                       halfServings,
                     );
@@ -159,7 +159,7 @@ class _CustomizationPageState extends State<CustomizationPage> {
             children: [
               IconButton(
                 icon: const Icon(Icons.remove),
-                onPressed: value > 0 ? () => onChanged(value - 1) : null,
+                onPressed: () => onChanged(value == 0 ? 1 : value + 1),
               ),
               Container(
                 width: 40,

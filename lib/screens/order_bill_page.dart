@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/cart_model.dart';
 import 'payment_method_page.dart';
+import 'package:intl/intl.dart';
 
 class OrderBillPage extends StatelessWidget {
   const OrderBillPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    final now = DateTime.now();
+    final formattedDate = DateFormat('MMMM dd, yyyy').format(now);
+    final formattedTime = DateFormat('hh:mm a').format(now);
+
     return Dialog(
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
@@ -48,16 +54,17 @@ class OrderBillPage extends StatelessWidget {
                                 fontSize: 16,
                               ),
                             ),
-                            const SizedBox(height: 4),
+                            const SizedBox(width: 8),
                             Text(
-                              'November 07, 2024',
+                              formattedDate,
                               style: TextStyle(
                                 color: Colors.grey[600],
                                 fontSize: 12,
                               ),
                             ),
+                            const SizedBox(width: 8),
                             Text(
-                              '11:20 am',
+                              formattedTime,
                               style: TextStyle(
                                 color: Colors.grey[600],
                                 fontSize: 12,
@@ -82,21 +89,6 @@ class OrderBillPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        // const SizedBox(height: 4),
-                        // Text(
-                        //   'November 07, 2024',
-                        //   style: TextStyle(
-                        //     color: Colors.grey[600],
-                        //     fontSize: 12,
-                        //   ),
-                        // ),
-                        // Text(
-                        //   '11:20 am',
-                        //   style: TextStyle(
-                        //     color: Colors.grey[600],
-                        //     fontSize: 12,
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),
@@ -104,13 +96,12 @@ class OrderBillPage extends StatelessWidget {
               ),
             ),
 
-            // Invoice Content (Fixed)
+            // Invoice Content
             Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
-
                   Text(
                     'Bill Summary',
                     style: TextStyle(
@@ -118,7 +109,7 @@ class OrderBillPage extends StatelessWidget {
                       fontWeight: FontWeight.w900,
                     ),
                   ),
-                  SizedBox(height:4),
+                  SizedBox(height: 4),
                 ],
               ),
             ),
@@ -205,7 +196,7 @@ class OrderBillPage extends StatelessWidget {
               ),
             ),
 
-            // Bill Summary and Confirm Button (Fixed)
+            // Bill Summary and Confirm Button
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(

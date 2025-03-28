@@ -123,8 +123,8 @@ class _OrderConfirmedPageState extends State<OrderConfirmedPage>
                       Text(
                         'Order ID-219',
                         style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey,
+                          fontSize: 20,
+                          color: Colors.black87,
                         ),
                       ),
                     ],
