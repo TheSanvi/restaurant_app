@@ -81,7 +81,7 @@ class _CustomizationPageState extends State<CustomizationPage> {
                     _buildSpiceLevelOption('Less Spice'),
                     const SizedBox(height: 8),
                     _buildSpiceLevelOption('More Spice'),
-                    const SizedBox(height:2),
+                    const SizedBox(height: 2),
                   ],
                 ),
               ),
@@ -187,7 +187,11 @@ class _CustomizationPageState extends State<CustomizationPage> {
     return InkWell(
       onTap: () {
         setState(() {
-          spiceLevel = level;
+          if (spiceLevel == level) {
+            spiceLevel = null; // deselect on second tap
+          } else {
+            spiceLevel = level; // select on first tap
+          }
         });
       },
       child: Container(
@@ -212,7 +216,9 @@ class _CustomizationPageState extends State<CustomizationPage> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: spiceLevel == level ? const Color(0xFFFFE135) : Colors.grey[400]!,
+                  color: spiceLevel == level
+                      ? const Color(0xFFFFE135)
+                      : Colors.grey[400]!,
                   width: 2,
                 ),
               ),

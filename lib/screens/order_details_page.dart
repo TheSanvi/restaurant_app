@@ -176,19 +176,25 @@ class OrderDetailsPage extends StatelessWidget {
                                   const Text(
                                     'Total',
                                     style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.grey,
+                                      fontSize: 20,
+                                      color: Colors.black,
                                     ),
                                   ),
                                   Text(
-                                    '₹${cart.total.toStringAsFixed(2)} ',
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-
+                                    '(GST Added)',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: Colors.grey,
                                     ),
                                   ),
                                 ],
+                              ),
+                              Text(
+                                '₹${cart.total.toStringAsFixed(2)}',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               ElevatedButton(
                                 onPressed: cart.items.isNotEmpty

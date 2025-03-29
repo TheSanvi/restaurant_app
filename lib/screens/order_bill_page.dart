@@ -150,30 +150,32 @@ class OrderBillPage extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    item.item.name,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    '×${item.quantity}',
-                                    style: TextStyle(
-                                      color: Colors.grey[600],
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  if (item.customizationString.isNotEmpty)
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 4),
-                                      child: Text(
-                                        item.customizationString,
+                                  Row(
+                                    children: [
+                                      Text(
+                                        item.item.name,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        '×${item.quantity}',
                                         style: TextStyle(
                                           color: Colors.grey[600],
-                                          fontSize: 12,
+                                          fontSize: 14,
                                         ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 4),
+                                  if (item.customizationString.isNotEmpty)
+                                    Text(
+                                      item.customizationString,
+                                      style: TextStyle(
+                                        color: Colors.grey[600],
+                                        fontSize: 12,
                                       ),
                                     ),
                                 ],

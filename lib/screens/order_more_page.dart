@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/cart_model.dart';
+import '../models/menu_item.dart' show MenuItem;
 import 'order_bill_page.dart';
+
 
 class OrderMorePage extends StatelessWidget {
   const OrderMorePage({Key? key}) : super(key: key);
@@ -18,15 +20,22 @@ class OrderMorePage extends StatelessWidget {
       child: Container(
         width: 400,
         constraints: const BoxConstraints(maxHeight: 600),
-        padding: const EdgeInsets.only(bottom: 16), // Fix for bottom cutting issue
+        padding: const EdgeInsets.only(bottom: 16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildHeader(context),
             Expanded(
-              child: cart.items.isEmpty
-                  ? _buildEmptyCart()
-                  : _buildCartList(cart),
+              child: Column(
+                children: [
+                  const QuickOrderSection(),
+                  Expanded(
+                    child: cart.items.isEmpty
+                        ? _buildEmptyCart()
+                        : _buildCartList(cart),
+                  ),
+                ],
+              ),
             ),
             _buildBottomSection(context, cart),
           ],
@@ -136,7 +145,14 @@ class OrderMorePage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Total', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                const Text('Total', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+                Text(
+                  '(GST Added)',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.grey,
+                  ),
+                ),
                 Text(
                   '₹${cart.total.toStringAsFixed(2)}',
                   style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -181,6 +197,68 @@ class OrderMorePage extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class QuickOrderSection extends StatelessWidget {
+  const QuickOrderSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final cart = Provider.of<CartModel>(context, listen: false);
+
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFE135),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Quick Order",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          GestureDetector(
+            onDoubleTap: () {
+              cart.addToCart(
+                MenuItem(
+                  id: "1",
+                  name: "Water Bottle",
+                  description: "Fresh and cool water",
+                  category: "Beverages",
+                  price: 20,
+                  image: "https://www.flaticon.com/free-icon/drink_13144779?term=waterbottle&page=1&position=2&origin=search&related_id=13144779",
+                ),
+                {}, // empty customizations
+                1,
+              );
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Water Bottle added to Cart")),
+              );
+            },
+
+            child: Card(
+              elevation: 3,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              child: ListTile(
+                leading: Image.network(
+                  "https://www.flaticon.com/free-icon/drink_13144779?term=waterbottle&page=1&position=2&origin=search&related_id=13144779",
+                  width: 40,
+                  height: 40,
+                ),
+                title: const Text("Water Bottle"),
+                subtitle: const Text("Double Tap to Order"),
+              ),
+            ),
           ),
         ],
       ),
