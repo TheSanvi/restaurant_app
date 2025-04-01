@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_app/screens/cashier_screen.dart';
 import 'scanner_page.dart';
 
 class PaymentMethodPage extends StatefulWidget {
@@ -103,19 +104,29 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
                   if (selectedMethod == 'upi') {
                     Navigator.of(context).push(
                       PageRouteBuilder(
-                        pageBuilder:
-                            (context, animation, secondaryAnimation) =>
+                        pageBuilder: (context, animation, secondaryAnimation) =>
                             FadeTransition(
                               opacity: animation,
-                              child: const ScannerPage(),
+                              child: const ScannerPage(), // UPI ke liye ScannerPage
                             ),
-                        transitionDuration:
-                        const Duration(milliseconds: 500),
+                        transitionDuration: const Duration(milliseconds: 500),
+                      ),
+                    );
+                  } else if (selectedMethod == 'cash') {
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            FadeTransition(
+                              opacity: animation,
+                              child: const CashierScreen(), // Cash ke liye CashierScreen
+                            ),
+                        transitionDuration: const Duration(milliseconds: 500),
                       ),
                     );
                   }
                 }
                     : null,
+
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFFFE135),
                   foregroundColor: Colors.black,
