@@ -23,10 +23,12 @@ class OrderMorePage extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
+
           children: [
             _buildHeader(context),
             Expanded(
-              child: Column(
+              child: Column
+                (
                 children: [
                   const QuickOrderSection(),
                   Expanded(
@@ -250,11 +252,6 @@ class QuickOrderSection extends StatelessWidget {
               elevation: 3,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               child: ListTile(
-                leading: Image.network(
-                  "https://www.flaticon.com/free-icon/drink_13144779?term=waterbottle&page=1&position=2&origin=search&related_id=13144779",
-                  width: 40,
-                  height: 40,
-                ),
                 title: const Text("Water Bottle"),
                 subtitle: const Text("Double Tap to Order"),
               ),
